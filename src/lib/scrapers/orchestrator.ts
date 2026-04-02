@@ -2,6 +2,12 @@ import { prisma } from "@/lib/prisma";
 import { ScrapedJob } from "./base";
 import { IndeedScraper } from "./indeed";
 import { BundesagenturScraper } from "./bundesagentur";
+import { StepStoneScraper } from "./stepstone";
+import { XingScraper } from "./xing";
+import { LinkedInScraper } from "./linkedin";
+import { JobVectorScraper } from "./jobvector";
+import { TalentComScraper } from "./talent";
+import { YourFirmScraper } from "./yourfirm";
 import { JobSource } from "@prisma/client";
 
 export const JOB_KEYWORDS = [
@@ -50,7 +56,14 @@ export async function runAllScrapers(
   const scrapers = [
     new BundesagenturScraper(),
     new IndeedScraper(),
-    // Additional scrapers would be added here
+    new StepStoneScraper(),
+    new XingScraper(),
+    new LinkedInScraper(),
+    new JobVectorScraper(),
+    new TalentComScraper(),
+    new YourFirmScraper(),
+    // Note: Google Jobs, Jobware, Stellenanzeigen.de, Kleinanzeigen, BackInJob, WorkWise
+    // require special handling (some have ToS restrictions or require manual implementation)
   ];
 
   let totalNew = 0;
