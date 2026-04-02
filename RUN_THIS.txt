@@ -1,0 +1,30 @@
+🚀 GCG DEAL SCOUT — DEPLOYMENT IN 30 SEKUNDEN
+
+1. Öffne Terminal
+
+2. Führe aus:
+   cd /Users/johannesbaumgartner/Documents/gcg-deal-scout
+   bash DEPLOY_EVERYTHING.sh
+
+3. Fertig! ✅
+   Deine Vercel URL wird angezeigt
+
+---
+
+DAS WAR'S!
+
+Das Skript macht alles:
+✅ GitHub Push
+✅ Vercel Deployment
+✅ Datenbank Init
+✅ Gibt dir die URL
+
+---
+
+Login:
+📧 demo@gcg.de
+🔐 demo123
+
+---
+
+Questions? Lese README.md
