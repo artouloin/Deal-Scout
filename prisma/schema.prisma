@@ -1,0 +1,181 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role      @default(CONSULTANT)
+  accounts      Account[]
+  sessions      Session[]
+  coverLetters  CoverLetter[]
+  callLogs      CallLog[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum Role {
+  ADMIN
+  CONSULTANT
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Job {
+  id              String        @id @default(cuid())
+  externalId      String?       @unique
+  title           String
+  company         String
+  location        String?
+  description     String        @db.Text
+  url             String
+  source          JobSource
+  industry        Industry?
+  contractType    ContractType  @default(UNKNOWN)
+  isTemporary     Boolean       @default(false)
+  hasPermanentPotential Boolean @default(false)
+  phone           String?
+  email           String?
+  postedAt        DateTime?
+  expiresAt       DateTime?
+  matchScore      Int?
+  matchDetails    Json?
+  status          JobStatus     @default(NEW)
+  coverLetters    CoverLetter[]
+  callLogs        CallLog[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([status])
+  @@index([industry])
+  @@index([source])
+  @@index([matchScore])
+}
+
+enum JobSource {
+  INDEED
+  STEPSTONE
+  LINKEDIN
+  XING
+  BUNDESAGENTUR
+  TALENT_COM
+  JOBWARE
+  YOURFIRM
+  JOBVECTOR
+  GIGAJOB
+  STELLENANZEIGEN_DE
+  GOOGLE_JOBS
+  KLEINANZEIGEN
+  BACKINJOB
+  WORKWISE
+  OTHER
+}
+
+enum Industry {
+  HEALTHCARE
+  ENERGY
+  PUBLIC_SECTOR
+  RETAIL
+  MANUFACTURING
+  FINANCE
+  IT_TECH
+  LOGISTICS
+  REAL_ESTATE
+  OTHER
+}
+
+enum ContractType {
+  PERMANENT
+  TEMPORARY
+  FREELANCE
+  CONSULTING
+  UNKNOWN
+}
+
+enum JobStatus {
+  NEW
+  REVIEWED
+  CALL_PENDING
+  CALL_DONE
+  LETTER_DRAFT
+  LETTER_SENT
+  REJECTED
+  ARCHIVED
+}
+
+model CoverLetter {
+  id          String   @id @default(cuid())
+  jobId       String
+  userId      String
+  content     String   @db.Text
+  version     Int      @default(1)
+  isSent      Boolean  @default(false)
+  sentAt      DateTime?
+  profilePath String?
+  auditLog    AuditLog[]
+  job         Job      @relation(fields: [jobId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CallLog {
+  id        String   @id @default(cuid())
+  jobId     String
+  userId    String
+  notes     String?
+  calledAt  DateTime @default(now())
+  job       Job      @relation(fields: [jobId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id            String      @id @default(cuid())
+  coverletterId String
+  action        String
+  performedBy   String
+  coverLetter   CoverLetter @relation(fields: [coverletterId], references: [id])
+  createdAt     DateTime    @default(now())
+}
+
+model ScraperRun {
+  id          String   @id @default(cuid())
+  source      JobSource
+  jobsFound   Int      @default(0)
+  jobsNew     Int      @default(0)
+  status      String
+  errorMsg    String?
+  startedAt   DateTime @default(now())
+  finishedAt  DateTime?
+}
