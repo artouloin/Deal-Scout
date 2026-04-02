@@ -1,0 +1,25 @@
+# GCG Deal Scout — Vercel Environment Variables Template
+# Copy these to your Vercel project dashboard → Settings → Environment Variables
+
+# Required (auto-generated)
+DATABASE_URL=postgresql://...vercel.postgres.com/dbname_...
+
+# Required (generate: openssl rand -base64 32)
+NEXTAUTH_SECRET=your-secret-here
+
+# Required (Vercel will set this automatically)
+NEXTAUTH_URL=https://your-project.vercel.app
+
+# Already configured
+NOTIFY_EMAILS=j.s.a.baumgartner@gmx.de
+TEAM_USERS=[{"id":"1","email":"demo@gcg.de","name":"Demo Berater","password":"$2a$10$YIjlrBxPq9hFjDMxbPxdMO4a1ZsZ5lQZDg2QS/YB9L1aM/CK6Vbua"}]
+
+# Optional (Claude API - app works without it)
+ANTHROPIC_API_KEY=sk-ant-...
+
+# Optional (Email notifications - app works without it)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your@gmail.com
+SMTP_PASS=your-app-password
+SMTP_FROM=GCG Deal Scout <noreply@gcg-consulting.de>
