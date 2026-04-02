@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 GCG Deal Scout
 
-## Getting Started
+**Intelligente Lead-Generierung für GCG Unternehmensberatung**
 
-First, run the development server:
+Eine Web-App, die automatisch Stellenangebote von 15 Job-Portalen scraped, mit KI analysiert und bewertet, Anschreiben generiert, und das Team per E-Mail benachrichtigt.
 
+---
+
+## 📋 Features
+
+✅ **11 Job-Scraper** — Bundesagentur, Indeed, StepStone, XING, LinkedIn, JobVector, Talent.com, YourFirm, und mehr
+✅ **Intelligente Job-Analyse** — Match-Scoring (0-100) gegen GCG-Profil
+✅ **Anschreiben-Generator** — Automatisch generierte Bewerbungsanschreiben
+✅ **Team-Benachrichtigungen** — Tägliche E-Mails mit Top-Matches an j.s.a.baumgartner@gmx.de
+✅ **Responsive Dashboard** — Filterable Job-Liste mit Call-Tracking
+✅ **Fallback-System** — Funktioniert auch ohne Claude API (Keywords-basiert)
+✅ **Vercel Deployment** — Production-ready
+
+---
+
+## 🚀 Quick Start (3 Schritte)
+
+### 1. Code zu GitHub pushen
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd /Users/johannesbaumgartner/Documents/gcg-deal-scout
+gh auth login
+git push -u origin main
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Vercel deployen + DB initialisieren
+```bash
+bash vercel-deploy.sh
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Fertig! 🎉
+App läuft unter `https://your-domain.vercel.app`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📚 Dokumentation
 
-To learn more about Next.js, take a look at the following resources:
+| Datei | Inhalt |
+|-------|--------|
+| **DEPLOY_NOW.md** | ← **START HIER** — 3-Schritt Deployment |
+| QUICKSTART.md | 5-Minuten Übersicht |
+| DEPLOY_VERCEL.md | Detaillierte Anleitung + Troubleshooting |
+| SETUP.md | Lokal starten (Entwicklung) |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔐 Login (Demo)
 
-## Deploy on Vercel
+- **Email:** `demo@gcg.de`
+- **Password:** `demo123`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js 14, React 18, TypeScript, Tailwind CSS
+- **Backend:** Next.js API Routes, Node.js
+- **Database:** PostgreSQL (Vercel Postgres)
+- **Auth:** NextAuth.js
+- **Scraping:** Playwright, REST APIs
+- **AI:** Claude API (Optional)
+- **Deployment:** Vercel
+
+---
+
+## 📞 Support
+
+- **GitHub:** https://github.com/artouloin/Deal-Scout
+- **Email:** info@gcg-consulting.de
+- **Docs:** Siehe Ordner `/docs/` in diesem Projekt
+
+---
+
+## 📄 Lizenz
+
+Intern verwendetes GCG Tool — Alle Rechte vorbehalten.
+
+---
+
+**Bereit?** → Öffne `DEPLOY_NOW.md` und starte! 🚀
