@@ -6,14 +6,15 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const job = await prisma.job.findUnique({ where: { id: params.id } });
+  const { id } = await params;
+  const job = await prisma.job.findUnique({ where: { id } });
   if (!job) {
     return NextResponse.json({ error: "Job not found" }, { status: 404 });
   }

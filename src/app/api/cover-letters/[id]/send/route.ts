@@ -6,13 +6,14 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const { id } = await params;
   const formData = await request.formData();
   const recipientEmail = formData.get("email") as string;
   const profileFile = formData.get("profile") as File | null;
@@ -25,7 +26,7 @@ export async function POST(
   }
 
   const coverLetter = await prisma.coverLetter.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { job: true },
   });
 
@@ -50,7 +51,7 @@ export async function POST(
 
     await Promise.all([
       prisma.coverLetter.update({
-        where: { id: params.id },
+        where: { id },
         data: { isSent: true, sentAt: new Date() },
       }),
       prisma.auditLog.create({
