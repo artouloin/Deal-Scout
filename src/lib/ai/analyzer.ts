@@ -225,6 +225,22 @@ Schreibe ein professionelles Geschäftsanschreiben auf Deutsch:
     return response.content[0].type === "text" ? response.content[0].text : "";
   } catch (error) {
     console.warn("Claude API error for cover letter, using template fallback:", error);
-    return generateCoverLetter(job, matchResult, additionalContext); // Recursively use fallback
+    // Return template directly instead of recursive call
+    return `Betreff: Beratungsanfrage: ${job.title}
+
+Sehr geehrte Damen und Herren,
+
+vielen Dank für Ihre ausgeschriebene Position "${job.title}" bei ${job.company}. Wir von GCG Unternehmensberatung sehen eine ausgezeichnete Übereinstimmung zwischen Ihren Anforderungen und unserem Leistungsportfolio (Match-Score: ${matchResult.score}%).
+
+GCG ist spezialisiert auf Transformationsberatung, Change Management und Business Engineering. Wir verfügen über umfangreiche Erfahrung in den Branchen ${matchResult.industry || "diverser Industrien"} und haben zahlreiche erfolgreiche Projekte abgeschlossen.
+
+Wir möchten Sie einladen, ein unverbindliches Gespräch zu führen, um die Möglichkeiten einer Zusammenarbeit zu erörtern.
+
+Mit freundlichen Grüßen,
+
+GCG Unternehmensberatung
+Telefon: +49 721 9454991-0
+E-Mail: info@gcg-consulting.de
+www.gcg-consulting.de`;
   }
 }

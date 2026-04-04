@@ -10,11 +10,13 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
-// Verify connection on startup (optional)
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("SMTP connection error:", error);
-  } else if (success) {
-    console.log("SMTP connection ready");
-  }
-});
+// Verify connection only when SMTP is configured
+if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+  transporter.verify((error: Error | null, success?: true) => {
+    if (error) {
+      console.error("SMTP connection error:", error);
+    } else if (success) {
+      console.log("SMTP connection ready");
+    }
+  });
+}

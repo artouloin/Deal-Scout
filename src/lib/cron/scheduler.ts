@@ -3,6 +3,14 @@ import { runAllScrapers } from "@/lib/scrapers/orchestrator";
 import { sendNewJobsNotification } from "@/lib/email/notifications";
 import { prisma } from "@/lib/prisma";
 
+interface CronJobRow {
+  title: string;
+  company: string;
+  matchScore: number | null;
+  url: string;
+  industry: string | null;
+}
+
 export function startCronJobs() {
   console.log("[CRON] Initializing scheduler...");
 
@@ -13,7 +21,7 @@ export function startCronJobs() {
       const { totalNew } = await runAllScrapers();
 
       if (totalNew > 0) {
-        const newJobs = await prisma.job.findMany({
+        const newJobs: CronJobRow[] = await prisma.job.findMany({
           where: { createdAt: { gte: new Date(Date.now() - 86400000) } },
           orderBy: { matchScore: "desc" },
           take: 20,
@@ -27,7 +35,7 @@ export function startCronJobs() {
         });
 
         await sendNewJobsNotification(
-          newJobs.map((j) => ({
+          newJobs.map((j: CronJobRow) => ({
             title: j.title,
             company: j.company,
             score: j.matchScore ?? 0,
@@ -61,7 +69,7 @@ export function startCronJobs() {
   console.log("[CRON] Scheduler started successfully");
 }
 
-// Start automatically if in production/server context
-if (typeof window === "undefined") {
+// Only start cron in production with explicit flag
+if (process.env.ENABLE_CRON === "true") {
   startCronJobs();
 }

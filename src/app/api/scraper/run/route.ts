@@ -5,6 +5,14 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { sendNewJobsNotification } from "@/lib/email/notifications";
 import { prisma } from "@/lib/prisma";
 
+interface NewJobRow {
+  title: string;
+  company: string;
+  matchScore: number | null;
+  url: string;
+  industry: string | null;
+}
+
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -16,8 +24,7 @@ export async function POST(request: Request) {
     console.log(`Scraper completed: ${totalFound} found, ${totalNew} new`);
 
     if (totalNew > 0) {
-      // Get newest jobs
-      const newJobs = await prisma.job.findMany({
+      const newJobs: NewJobRow[] = await prisma.job.findMany({
         where: { createdAt: { gte: new Date(Date.now() - 86400000) } },
         orderBy: { matchScore: "desc" },
         take: 20,
@@ -31,7 +38,7 @@ export async function POST(request: Request) {
       });
 
       await sendNewJobsNotification(
-        newJobs.map((j) => ({
+        newJobs.map((j: NewJobRow) => ({
           title: j.title,
           company: j.company,
           score: j.matchScore ?? 0,
