@@ -83,3 +83,4 @@ Intern verwendetes GCG Tool — Alle Rechte vorbehalten.
 
 **Bereit?** → Öffne `DEPLOY_NOW.md` und starte! 🚀
 # Deal-Scout
+# Deal-Scout
